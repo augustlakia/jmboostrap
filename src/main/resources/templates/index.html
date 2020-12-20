@@ -3,15 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
-<div th:text="${auth}" ></div>
+<nav class="navbar navbar-dark bg-dark">
 
+    <h3 style="color: white"> ПОСТАВИТЬ СЮДА РОЛЬ</h3>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">logout</button>
+    </form>
+</nav>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+<div class="alert alert-primary" role="alert">
+    This is a primary alert—check it out!
+</div>
 <div th:each="user : ${users}">
     User Data
-    <div> <div th:text="${user.getEmail()}"> </div> </div>
-    <div>     <a th:href="@{admin/user/{id}(id=${user.getId()})}" th:text="${user.getName()}"> Name </a>
-     </div>
+    <div>
+        <div th:text="${user.getEmail()}"></div>
+    </div>
+    <div><a th:href="@{admin/user/{id}(id=${user.getId()})}" th:text="${user.getName()}"> Name </a>
+    </div>
     <br>
 
 
@@ -21,8 +40,6 @@
 <hr/>
 
 <a href="admin/new">Create new person</a>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">logout</button>
-</form>
+
 </body>
 </html>

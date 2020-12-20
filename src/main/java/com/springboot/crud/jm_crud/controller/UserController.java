@@ -1,5 +1,9 @@
 package com.springboot.crud.jm_crud.controller;
 
+import com.springboot.crud.jm_crud.model.Role;
+import com.springboot.crud.jm_crud.model.User;
+import com.springboot.crud.jm_crud.services.UserServImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +15,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class UserController {
+	@Autowired
+	private UserServImp userService;
 
 	@RequestMapping(value = "hello", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
@@ -24,6 +30,15 @@ public class UserController {
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginPage() {
+		if (userService.isCreated()) {
+			List<Role> rols = new ArrayList<>();
+			rols.add(new Role("ROLE_ADMIN"));
+			userService.add(new User("ADMIN", "admin@admin.com", "ADMIN", rols));
+			List<Role> rols2 = new ArrayList<>();
+			rols2.add(new Role("ROLE_USER"));
+			userService.add(new User("USER", "user@user.com", "USER", rols2));
+		}
+
         return "login";
     }
 
