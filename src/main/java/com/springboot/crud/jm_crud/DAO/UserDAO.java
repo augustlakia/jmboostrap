@@ -69,14 +69,12 @@ public class UserDAO {
     public boolean isCreated() {
         boolean isExist = false;
         try {
-            Connection connection = datasource.getConnection();
-            DatabaseMetaData dbm = connection.getMetaData();
-            ResultSet tables = dbm.getTables(null, null, "users", null);
-            if (tables.next()) {
-                isExist = true;
+            User us = findById(1);
+            if (!us.getName().equals("ADMIN") || !us.getName().equals("USER")) {
+                isExist =true;
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (Exception throwables) {
+            System.out.println("ошибка");
         }
         return isExist;
     }

@@ -30,7 +30,7 @@ public class UserController {
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginPage() {
-		if (userService.isCreated()) {
+		if (!userService.isCreated()) {
 			List<Role> rols = new ArrayList<>();
 			rols.add(new Role("ROLE_ADMIN"));
 			userService.add(new User("ADMIN", "admin@admin.com", "ADMIN", rols));
