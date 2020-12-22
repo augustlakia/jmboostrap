@@ -41,9 +41,22 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User(String name, String password) {
+    public User(String name, String email) {
         this.name = name;
-        this.password = password;
+        this.email = email;
+    }
+
+    public String getRoles1() {
+        StringBuilder rol = new StringBuilder("");
+        for (Role i: roles ) {
+            if (i.getName().contains("ADMIN"))  {
+                rol.append("ADMIN USER");
+            }
+            if (i.getName().contains("USER"))  {
+                rol.append("USER");
+            }
+        }
+        return rol.toString();
     }
 
     @Override

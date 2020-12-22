@@ -31,7 +31,6 @@ public class UserDAOImp implements UserDAO {
         em.getTransaction().commit();
     }
 
-    @SuppressWarnings("unchecked")
     public List<User> getUsersList() {
         return em.createQuery("select us from User us").getResultList();
     }

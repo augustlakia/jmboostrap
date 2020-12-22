@@ -39,7 +39,9 @@ public String aboutUser(Model model, Authentication auth) {
 }
 
     @GetMapping(value = "/admin")
-    public String printWelcome(Model model) {
+    public String printWelcome(Model model, Authentication auth) {
+        User loggedUser = (User) auth.getPrincipal();
+        model.addAttribute("userl",loggedUser);
         model.addAttribute("users", userService.getUsersList());
         return "index";
     }
@@ -56,7 +58,9 @@ public String aboutUser(Model model, Authentication auth) {
         return "new";
     }
 
-    @PostMapping("admin/user")
+
+    // changed not working on admin
+    @PostMapping("/admin")
     public String create(@ModelAttribute("user") User user) {
         userService.add(user);
         return "redirect:/admin";
@@ -80,3 +84,4 @@ public String aboutUser(Model model, Authentication auth) {
     }
 
 }
+

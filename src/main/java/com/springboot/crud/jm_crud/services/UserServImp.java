@@ -26,7 +26,6 @@ public class UserServImp implements UserServ, UserDetailsService {
         userDAO.add(user);
     }
 
-    @SuppressWarnings("unchecked")
     public List<User> getUsersList() {
         return userDAO.getUsersList();
     }
