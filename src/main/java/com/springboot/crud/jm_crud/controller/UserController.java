@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -31,12 +33,18 @@ public class UserController {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginPage() {
 		if (!userService.isCreated()) {
-			List<Role> rols = new ArrayList<>();
-			rols.add(new Role("ROLE_ADMIN"));
-			userService.add(new User("ADMIN", "admin@admin.com", "ADMIN", rols));
-			List<Role> rols2 = new ArrayList<>();
-			rols2.add(new Role("ROLE_USER"));
-			userService.add(new User("USER", "user@user.com", "USER", rols2));
+			Role rolAdmin = new Role();
+			rolAdmin.setName("ROLE_ADMIN");
+			Set<Role> rols = new HashSet<>();
+			rols.add(rolAdmin);
+			userService.add(new User("ADMIN", "AdminLastName", "21", "Admin@Gmail.com", "ADMIN",rols));
+
+
+			Role rolUser = new Role();
+			rolUser.setName("ROLE_USER");
+			Set<Role> rols2 = new HashSet<>();
+			rols2.add(rolUser);
+			userService.add(new User("USER", "UserLastName", "21", "user@gmail.com", "USER", rols2));
 		}
 
         return "login";

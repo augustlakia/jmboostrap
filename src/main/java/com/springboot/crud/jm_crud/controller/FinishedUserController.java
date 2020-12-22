@@ -1,5 +1,6 @@
 package com.springboot.crud.jm_crud.controller;
 
+import com.springboot.crud.jm_crud.DAO.RoleDAOImp;
 import com.springboot.crud.jm_crud.model.Role;
 import com.springboot.crud.jm_crud.model.User;
 import com.springboot.crud.jm_crud.services.UserServImp;
@@ -10,8 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class FinishedUserController {
@@ -30,6 +30,9 @@ public class FinishedUserController {
 //        userService.add(new User("USER", "user@user.com", "USER", rols2));
 //        return "first";
 //    }
+
+    @Autowired
+    RoleDAOImp roleDAOImp;
 
 @GetMapping(value = "/user")
 public String aboutUser(Model model, Authentication auth) {
@@ -62,6 +65,30 @@ public String aboutUser(Model model, Authentication auth) {
     // changed not working on admin
     @PostMapping("/admin")
     public String create(@ModelAttribute("user") User user) {
+
+        if(user.getRolesString().equals("Admin")) {
+            Role toSet = roleDAOImp.findByName("ROLE_ADMIN");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            user.setRoles(setOfRoles);
+        }
+        if(user.getRolesString().equals("User")) {
+            Role toSet = roleDAOImp.findByName("ROLE_USER");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            user.setRoles(setOfRoles);
+        }
+        if (user.getRolesString().equals("UserAdmin")) {
+            Role toSet = roleDAOImp.findByName("ROLE_ADMIN");
+            Role toSet2 = roleDAOImp.findByName("ROLE_USER");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            setOfRoles.add(toSet2);
+            user.setRoles(setOfRoles);
+        }
+
+
+
         userService.add(user);
         return "redirect:/admin";
     }
@@ -74,6 +101,27 @@ public String aboutUser(Model model, Authentication auth) {
 
     @PatchMapping("admin/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+
+        if (user.getRolesString().equals("Admin")) {
+            Role toSet = roleDAOImp.findByName("ROLE_ADMIN");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            user.setRoles(setOfRoles);
+        }
+        if (user.getRolesString().equals("User")) {
+            Role toSet = roleDAOImp.findByName("ROLE_USER");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            user.setRoles(setOfRoles);
+        }
+        if (user.getRolesString().equals("UserAdmin")) {
+            Role toSet = roleDAOImp.findByName("ROLE_ADMIN");
+            Role toSet2 = roleDAOImp.findByName("ROLE_USER");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            setOfRoles.add(toSet2);
+            user.setRoles(setOfRoles);
+        }
         userService.Update(user);
         return "redirect:/admin";
     }

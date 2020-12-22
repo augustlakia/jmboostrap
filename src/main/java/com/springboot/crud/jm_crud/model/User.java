@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -18,32 +19,34 @@ public class User implements UserDetails {
 
     private String name;
 
+    private String lastName;
+
+    private String age;
+
+
     private String email;
 
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @ManyToMany(cascade = {CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "userid", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "roleid", referencedColumnName = "id")
     )
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public User() {
     }
 
-
-    public User(String name, String email, String password, List<Role> roles) {
+    public User(String name, String lastName, String age, String email, String password, Set<Role> roles) {
         this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
         this.password = password;
-        this.email = email;
         this.roles = roles;
-    }
-
-    public User(String name, String email) {
-        this.name = name;
-        this.email = email;
     }
 
     public String getRoles1() {
@@ -57,6 +60,22 @@ public class User implements UserDetails {
             }
         }
         return rol.toString();
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 
     @Override
@@ -121,11 +140,33 @@ public class User implements UserDetails {
         return email;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public String getRolesString() {
+        StringBuilder rolesToString = new StringBuilder();
+        for (Role i: getRoles()) {
+          rolesToString.append(i.getName());
+        }
+        return rolesToString.toString();
+    }
+    public String getRolesString2() {
+        if (getRolesString().contains("USER") & getRolesString().contains("ADMIN")) {
+            return "ADMIN USER";
+        }
+
+        if (getRolesString().contains("USER")) {
+            return "USER";
+        }
+        if (getRolesString().contains("ADMIN")) {
+            return "ADMIN";
+        }
+        return "NOT FIND";
+    }
+
+
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

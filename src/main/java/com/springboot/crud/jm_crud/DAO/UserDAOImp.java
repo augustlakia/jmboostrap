@@ -1,6 +1,9 @@
 package com.springboot.crud.jm_crud.DAO;
 
+import com.springboot.crud.jm_crud.model.Role;
 import com.springboot.crud.jm_crud.model.User;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -9,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Repository
@@ -19,12 +25,14 @@ public class UserDAOImp implements UserDAO {
 
     private final EntityManager em;
 
+
+
     public UserDAOImp(EntityManagerFactory em, DataSource datasource) {
         this.em = em.createEntityManager();
         this.datasource = datasource;
     }
 
-
+    @Transactional
     public void add(User user) {
         em.getTransaction().begin();
         em.persist(user);
@@ -63,7 +71,7 @@ public class UserDAOImp implements UserDAO {
         try {
             User us = findById(1);
             if (!us.getName().equals("ADMIN") || !us.getName().equals("USER")) {
-                isExist =true;
+                isExist = true;
             }
         } catch (Exception throwables) {
             System.out.println("ошибка");

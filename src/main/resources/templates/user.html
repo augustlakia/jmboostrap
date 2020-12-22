@@ -22,7 +22,8 @@
 
 <nav class="navbar navbar-dark bg-dark">
 
-    <h3 style="color: white" th:text="${user.getEmail()} + ' with roles: ' +${user.getRoles1()}"> ПОСТАВИТЬ СЮДА РОЛЬ</h3>
+    <h3 style="color: white" th:text="${user.getName()} + ' with roles: ' +${user.getRolesString2()}"> ПОСТАВИТЬ СЮДА
+        РОЛЬ</h3>
     <form th:action="@{/logout}" method="post">
         <a class="nav-link" href="/logout" style="text-decoration: none; color: grey">Logout</a>
     </form>
@@ -56,21 +57,25 @@
                                 <h4> About user </h4>
                             </div>
                             <div class="card-body">
-
                                 <table class="table table-striped">
                                     <thead class="thead-light">
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
+                                        <th>Last Name</th>
+                                        <th>Age</th>
                                         <th>Email</th>
-
+                                        <th>Roles</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
                                         <td th:text="${user.getId()}"></td>
                                         <td th:text="${user.getName()}"></td>
+                                        <td th:text="${user.getLastName()}"></td>
+                                        <td th:text="${user.getAge()}"></td>
                                         <td th:text="${user.getEmail()}"></td>
+                                        <td th:text="${user.getRolesString2()}"></td>
                                     </tr>
                                     </tbody>
                                 </table>

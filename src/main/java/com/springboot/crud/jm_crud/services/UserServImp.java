@@ -13,7 +13,8 @@ import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Service
-public class UserServImp implements UserServ, UserDetailsService {
+public class UserServImp implements UserServ, UserDetailsService
+{
 
     private final UserDAO userDAO;
 

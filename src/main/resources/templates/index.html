@@ -22,7 +22,7 @@
 
 <nav class="navbar navbar-dark bg-dark">
 
-    <h3 style="color: white" th:text="${userl.getEmail()} + ' with roles: ' +${userl.getRoles1()}"> ПОСТАВИТЬ СЮДА
+    <h3 style="color: white" th:text="${userl.getName()} + ' with roles: ' +${userl.getRolesString2()}"> ПОСТАВИТЬ СЮДА
         РОЛЬ</h3>
     <form th:action="@{/logout}" method="post">
         <a class="nav-link" href="/logout" style="text-decoration: none; color: grey">Logout</a>
@@ -79,7 +79,10 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
+                                            <th>Last Name</th>
+                                            <th>Age</th>
                                             <th>Email</th>
+                                            <th>Roles</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
                                         </tr>
@@ -88,7 +91,10 @@
                                         <tr th:each="user1 : ${users}">
                                             <td th:text="${user1.getId()}"></td>
                                             <td th:text="${user1.getName()}"></td>
+                                            <td th:text="${user1.getLastName()}"></td>
+                                            <td th:text="${user1.getAge()}"></td>
                                             <td th:text="${user1.getEmail()}"></td>
+                                            <td th:text="${user1.getRolesString2()}"></td>
                                             <td>
                                                 <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                                         th:attr="data-bs-target='#edit-'+${user1.id}">
@@ -131,6 +137,28 @@
                                                                                    th:placeholder="name"/>
                                                                         </div>
 
+                                                                        <div class="font-weight-bold">
+                                                                            <label for="lastname2"> Last Name </label>
+                                                                            <input type="text" class="form-control"
+                                                                                   name="lastName" id="lastname2"
+                                                                                   th:value="${user1.getLastName()}"
+                                                                                   th:placeholder="lastName"/>
+                                                                        </div>
+
+                                                                        <div class="font-weight-bold">
+                                                                            <label for="age2"> Age </label>
+                                                                            <input type="text" class="form-control"
+                                                                                   name="age" id="age2"
+                                                                                   th:value="${user1.getAge()}"
+                                                                                   th:placeholder="age"/>
+                                                                        </div>
+
+                                                                        <div class="font-weight-bold">
+                                                                            <label for="pass"> Age </label>
+                                                                            <input type="text" class="form-control"
+                                                                                   name="password" id="pass"
+                                                                                   th:placeholder="password"/>
+                                                                        </div>
 
                                                                         <div class="font-weight-bold ">
                                                                             <label
@@ -143,6 +171,25 @@
                                                                                    th:value="${user1.email}"
                                                                                    th:placeholder="email">
 
+
+                                                                            <div class="font-weight-bold">
+                                                                                <div class="font-weight-bold">
+                                                                                    <label for="roles2">Role</label>
+                                                                                    <select multiple
+                                                                                            class="form-control"
+                                                                                            type="text"
+                                                                                            name="roles"
+                                                                                            id="roles2"
+                                                                                            style="height: 60px;">
+                                                                                        <div>
+                                                                                            <option>User</option>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <option>Admin</option>
+                                                                                        </div>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
 
                                                                             <div class="modal-footer col-10"
                                                                                  style="float:right;">
@@ -184,8 +231,8 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Modal
-                                                                    title</h5>
+                                                                <h5 class="modal-title" id="exampleModalLabel">Delete
+                                                                    User</h5>
                                                                 <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
@@ -214,6 +261,32 @@
                                                                                    th:value="${user1.name}"
                                                                                    th:placeholder="name"/>
                                                                         </div>
+                                                                        <div class="font-weight-bold">
+                                                                            <label for="lastname22"> Last Name </label>
+                                                                            <input type="text" class="form-control"
+                                                                                   disabled
+                                                                                   name="lastName" id="lastname22"
+                                                                                   th:value="${user1.getLastName()}"
+                                                                                   th:placeholder="lastName"/>
+                                                                        </div>
+
+                                                                        <div class="font-weight-bold">
+                                                                            <label for="age22"> Age </label>
+                                                                            <input type="text" class="form-control"
+                                                                                   disabled
+                                                                                   name="age" id="age22"
+                                                                                   th:value="${user1.getAge()}"
+                                                                                   th:placeholder="age"/>
+                                                                        </div>
+
+                                                                        <div class="font-weight-bold">
+                                                                            <label for="pass2"> Age </label>
+                                                                            <input type="text" class="form-control"
+                                                                                   disabled
+                                                                                   name="password" id="pass2"
+                                                                                   th:placeholder="password"/>
+                                                                        </div>
+
 
                                                                         <div class="font-weight-bold ">
                                                                             <label
@@ -225,6 +298,25 @@
                                                                                    id="email2"
                                                                                    th:value="${user1.email}"
                                                                                    th:placeholder="email">
+
+                                                                            <div class="font-weight-bold">
+                                                                                <div class="font-weight-bold">
+                                                                                    <label for="roles22">Role</label>
+                                                                                    <select multiple
+                                                                                            class="form-control"
+                                                                                            type="text"
+                                                                                            name="roles"
+                                                                                            id="roles22" disabled
+                                                                                            style="height: 60px;">
+                                                                                        <div>
+                                                                                            <option>User</option>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <option>Admin</option>
+                                                                                        </div>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
 
 
                                                                             <div class=" col-10 modal-footer"
@@ -281,12 +373,52 @@
                                                            placeholder="Name">
                                                 </div>
 
+                                                <div class="font-weight-bold ">
+                                                    <label for="lastName">Last Name</label>
+                                                    <input type="text" class="form-control" name="lastName"
+                                                           id="lastName"
+                                                           placeholder="Last Name">
+                                                </div>
+
+                                                <div class="font-weight-bold ">
+                                                    <label for="age">Age</label>
+                                                    <input type="text" class="form-control" name="age" id="age"
+                                                           placeholder="Age">
+                                                </div>
+
                                                 <div class="font-weight-bold">
                                                     <label for="email">Email</label>
                                                     <input type="text" class="form-control" name="email"
                                                            id="email"
                                                            placeholder="Email">
                                                 </div>
+
+                                                <div class="font-weight-bold ">
+                                                    <label for="password">password</label>
+                                                    <input type="text" class="form-control" name="password"
+                                                           id="password"
+                                                           placeholder="Password">
+                                                </div>
+
+                                                <div class="font-weight-bold">
+                                                    <div class="font-weight-bold">
+                                                        <label for="roles">Role</label>
+                                                        <select multiple
+                                                                class="form-control"
+                                                                type="text"
+                                                                name="roles"
+                                                                id="roles"
+                                                                style="height: 60px;">
+                                                            <div>
+                                                                <option>User</option>
+                                                            </div>
+                                                            <div>
+                                                                <option>Admin</option>
+                                                            </div>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
 
                                                 <br/>
                                                 <input type="submit" class="btn btn-success" value="Add new user">
@@ -324,15 +456,20 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
+                                        <th>Last Name</th>
+                                        <th>Age</th>
                                         <th>Email</th>
-
+                                        <th>Roles</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td th:text="${userl.getId()}"></td>
-                                        <td th:text="${userl.getName()}"></td>
-                                        <td th:text="${userl.getEmail()}"></td>
+                                    <tr th:each="user1 : ${users}">
+                                        <td th:text="${user1.getId()}"></td>
+                                        <td th:text="${user1.getName()}"></td>
+                                        <td th:text="${user1.getLastName()}"></td>
+                                        <td th:text="${user1.getAge()}"></td>
+                                        <td th:text="${user1.getEmail()}"></td>
+                                        <td th:text="${user1.getRolesString2()}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
