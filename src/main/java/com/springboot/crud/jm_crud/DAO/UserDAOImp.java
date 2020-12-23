@@ -40,7 +40,7 @@ public class UserDAOImp implements UserDAO {
     }
 
     public List<User> getUsersList() {
-        return em.createQuery("select us from User us").getResultList();
+        return em.createQuery("select us from User us",User.class).getResultList();
     }
 
     public User findById(int id) {

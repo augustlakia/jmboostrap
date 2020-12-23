@@ -1,5 +1,6 @@
 package com.springboot.crud.jm_crud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Role implements GrantedAuthority {
 
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<User> users;
     public Role() {
 

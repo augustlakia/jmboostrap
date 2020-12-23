@@ -1,6 +1,7 @@
 package com.springboot.crud.jm_crud.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -35,7 +36,18 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "userid", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "roleid", referencedColumnName = "id")
     )
+    @JsonIgnore
     private Set<Role> roles;
+
+    private String rol;
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
 
     public User() {
     }
@@ -47,6 +59,15 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public User(String name, String lastName, String age, String email, String password, String rol) {
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
     }
 
     public String getRoles1() {
