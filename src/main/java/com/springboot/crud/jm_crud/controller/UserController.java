@@ -2,6 +2,7 @@ package com.springboot.crud.jm_crud.controller;
 
 import com.springboot.crud.jm_crud.model.Role;
 import com.springboot.crud.jm_crud.model.User;
+import com.springboot.crud.jm_crud.services.RoleServ;
 import com.springboot.crud.jm_crud.services.UserServImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class UserController {
 	@Autowired
 	private UserServImp userService;
 
+	@Autowired
+	private RoleServ roleServ;
+
 	@RequestMapping(value = "hello", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
 		List<String> messages = new ArrayList<>();
@@ -35,15 +39,17 @@ public class UserController {
 		if (!userService.isCreated()) {
 			Role rolAdmin = new Role();
 			rolAdmin.setName("ROLE_ADMIN");
+			roleServ.add(rolAdmin);
 			Set<Role> rols = new HashSet<>();
-			rols.add(rolAdmin);
+			rols.add(roleServ.findByName("ROLE_ADMIN"));
 			userService.add(new User("ADMIN", "AdminLastName", "21", "Admin@Gmail.com", "ADMIN",rols));
 
 
 			Role rolUser = new Role();
 			rolUser.setName("ROLE_USER");
+			roleServ.add(rolUser);
 			Set<Role> rols2 = new HashSet<>();
-			rols2.add(rolUser);
+			rols2.add(roleServ.findByName("ROLE_USER"));
 			userService.add(new User("USER", "UserLastName", "21", "user@gmail.com", "USER", rols2));
 		}
 

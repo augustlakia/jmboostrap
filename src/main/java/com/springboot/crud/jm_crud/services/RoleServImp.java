@@ -15,4 +15,8 @@ public class RoleServImp implements RoleServ {
         return roleDAO.findByName(s);
     }
 
+    public void add(Role role) {
+        roleDAO.add(role);
+    }
+
 }
