@@ -61,5 +61,10 @@ public class UserController {
 	public String printWelcome() {
 		return "admin";
 	}
+	@GetMapping(value = "/user")
+	public String user() {
+		return "user";
+	}
+
 
 }

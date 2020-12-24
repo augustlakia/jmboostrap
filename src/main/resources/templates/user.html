@@ -16,14 +16,39 @@
         crossorigin="anonymous"></script>
 
 
-<script></script>
+<script>
+
+    const allUserURL = "http://localhost:8080/api/allUsers"
+
+   async function getAll() {
+        await fetch(allUserURL).then((res) => {
+            return res.json();
+        }).then((res) => {
+            let roles1 = `${res[0].name} with roles ${res[0].rolesString2}`
+            document.querySelector("#roleshere").innerHTML = roles1
+            $('#usertab').append(`<tr> <td> ${res[0].id} </td> <td> ${res[0].name} </td> <td> ${res[0].lastName} </td> <td> ${res[0].age} </td> <td> ${res[0].email} </td> <td> ${res[0].rolesString2}</tr>`)
+
+        })
+    }
+    getAll()
+
+
+    // $(document).ready(function () {
+    //     console.log(is[0])
+    //     let roles1 = `${is[1].name} with roles ${is[1].rolesString2}`
+    //     console.log(is[1].rolesString2)
+    //     document.querySelector("#roleshere").innerHTML = roles1
+    //     $('#usertab').append(`<tr> <td> ${is[1].id} </td> <td> ${is[1].name} </td> <td> ${is[1].lastName} </td> <td> ${is[1].age} </td> <td> ${is[1].email} </td> <td> ${is[1].rolesString2}</tr>`)
+    //
+    // })
+
+</script>
 <!--SCRIPTS-->
 
 
 <nav class="navbar navbar-dark bg-dark">
 
-    <h3 style="color: white" th:text="${user.getName()} + ' with roles: ' +${user.getRolesString2()}"> ПОСТАВИТЬ СЮДА
-        РОЛЬ</h3>
+    <h3 style="color: white" id="roleshere"></h3>
     <form th:action="@{/logout}" method="post">
         <a class="nav-link" href="/logout" style="text-decoration: none; color: grey">Logout</a>
     </form>
@@ -34,7 +59,8 @@
         <nav class="col-2 p-0">
             <div class="nav flex-column nav-pills mt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-                <a class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab"
+                <a class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile"
+                   role="tab"
                    aria-controls="v-pills-profile" aria-selected="true">User</a>
 
             </div>
@@ -68,20 +94,12 @@
                                         <th>Roles</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td th:text="${user.getId()}"></td>
-                                        <td th:text="${user.getName()}"></td>
-                                        <td th:text="${user.getLastName()}"></td>
-                                        <td th:text="${user.getAge()}"></td>
-                                        <td th:text="${user.getEmail()}"></td>
-                                        <td th:text="${user.getRolesString2()}"></td>
-                                    </tr>
+                                    <tbody id="usertab">
+
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
 
 
                     </div>

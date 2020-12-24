@@ -48,11 +48,11 @@ public class UserDAOImp implements UserDAO {
                 .setParameter("id", Long.parseLong(String.valueOf(id)))
                 .getSingleResult();
     }
-
+    @Transactional
     public void Update(User user) {
-        em.getTransaction().begin();
+//        em.getTransaction().begin();
         em.merge(user);
-        em.getTransaction().commit();
+//        em.getTransaction().commit();
     }
 
     public void Delete(int id) {

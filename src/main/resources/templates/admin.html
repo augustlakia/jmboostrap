@@ -17,26 +17,42 @@
 
 
 <script>
-
     const allUserURL = "http://localhost:8080/api/allUsers"
     let is = []
+    function getAll() {
+        fetch(allUserURL).then((res) => {
 
-    fetch(allUserURL).then((res) => {
-        return res.json();
-    })
-        .then((res) => {
-            let tbody = document.getElementById("tbody")
-            for (i of res) {
-                // tbody.insertAdjacentHTML('beforeend', `<tr> <td> ${i.id} </td> <td> ${i.name} </td> <td> ${i.lastName} </td> <td> ${i.age} </td> <td> ${i.email} </td> <td> ${i.rolesString2} </td>  <td><button type="button" class="btn btn-info" data-bs-toggle="modal" onclick="editUser(${i})" data-bs-target="#edit-modal">Edit</button></td> <td>    <button type="button" class="btn btn-danger" data-bs-toggle="modal" onclick="deleteUser(i)" data-bs-target="#delete-modal">Delete</button> </td> </tr>`)
-
-                // is.push(i)
-                $('#tbody').append(`<tr> <td> ${i.id} </td> <td> ${i.name} </td> <td> ${i.lastName} </td> <td> ${i.age} </td> <td> ${i.email} </td> <td> ${i.rolesString2} </td>  <td><button type="button" class="btn btn-info" data-bs-toggle="modal" onclick="editUser(${i.id})" data-bs-target="#edit-modal">Edit</button></td> <td>    <button type="button" class="btn btn-danger" data-bs-toggle="modal" onclick="deleteUser(${i.id})" data-bs-target="#delete-modal">Delete</button> </td> </tr>`)
-            }
-            // console.log(is)
-            // for ( let i = 0; i < is.length; i++){
-            //     $('#tbody').append(`<tr> <td> ${is[i].id} </td> <td> ${is[i].name} </td> <td> ${is[i].lastName} </td> <td> ${is[i].age} </td> <td> ${is[i].email} </td> <td> ${is[i].rolesString2} </td>  <td><button type="button" class="btn btn-info" data-bs-toggle="modal" onclick="editUser(is[i])" data-bs-target="#edit-modal">Edit</button></td> <td>    <button type="button" class="btn btn-danger" data-bs-toggle="modal" onclick="deleteUser(is[i])" data-bs-target="#delete-modal">Delete</button> </td> </tr>`)
-            // }
+            return res.json();
         })
+            .then((res) => {
+                is = []
+                for (i of res) {
+                    // tbody.insertAdjacentHTML('beforeend', `<tr> <td> ${i.id} </td> <td> ${i.name} </td> <td> ${i.lastName} </td> <td> ${i.age} </td> <td> ${i.email} </td> <td> ${i.rolesString2} </td>  <td><button type="button" class="btn btn-info" data-bs-toggle="modal" onclick="editUser(${i})" data-bs-target="#edit-modal">Edit</button></td> <td>    <button type="button" class="btn btn-danger" data-bs-toggle="modal" onclick="deleteUser(i)" data-bs-target="#delete-modal">Delete</button> </td> </tr>`)
+
+                    is.push(i)
+                    // $('#tbody').append(`<tr> <td> ${i.id} </td> <td> ${i.name} </td> <td> ${i.lastName} </td> <td> ${i.age} </td> <td> ${i.email} </td> <td> ${i.rolesString2} </td>  <td><button type="button" class="btn btn-info" data-bs-toggle="modal" onclick="editUser(${i.id})" data-bs-target="#edit-modal">Edit</button></td> <td>    <button type="button" class="btn btn-danger" data-bs-toggle="modal" onclick="deleteUser(${i.id})" data-bs-target="#delete-modal">Delete</button> </td> </tr>`)
+                }
+                document.querySelector("#tbody").innerHTML = ""
+                for (let i = 1; i < is.length; i++) {
+                    $('#tbody').html($('#tbody').html() + `<tr> <td> ${is[i].id} </td> <td> ${is[i].name} </td> <td> ${is[i].lastName} </td> <td> ${is[i].age} </td> <td> ${is[i].email} </td> <td> ${is[i].rolesString2} </td>  <td><button type="button" class="btn btn-info" data-bs-toggle="modal" onclick="editUser(${is[i].id})" data-bs-target="#edit-modal">Edit</button></td> <td>    <button type="button" class="btn btn-danger" data-bs-toggle="modal" onclick="deleteUser(${is[i].id})" data-bs-target="#delete-modal">Delete</button> </td> </tr>`)
+
+                }
+                //     $('#tbody').append(`<tr> <td> ${is[i].id} </td> <td> ${is[i].name} </td> <td> ${is[i].lastName} </td> <td> ${is[i].age} </td> <td> ${is[i].email} </td> <td> ${is[i].rolesString2} </td>  <td><button type="button" class="btn btn-info" data-bs-toggle="modal" onclick="editUser(is[i])" data-bs-target="#edit-modal">Edit</button></td> <td>    <button type="button" class="btn btn-danger" data-bs-toggle="modal" onclick="deleteUser(is[i])" data-bs-target="#delete-modal">Delete</button> </td> </tr>`)
+                // }
+                $(document).ready(function () {
+                    let roles1 = `${is[0].name} with roles ${is[0].rolesString2}`
+                    console.log(is[0].rolesString2)
+                    document.querySelector("#roleshere").innerHTML = roles1
+                    $('#usertab').append(`<tr> <td> ${is[0].id} </td> <td> ${is[0].name} </td> <td> ${is[0].lastName} </td> <td> ${is[0].age} </td> <td> ${is[0].email} </td> <td> ${is[0].rolesString2}</tr>`)
+
+                })
+            })
+    }
+
+    window.onload = function () {
+        getAll()
+    }
+
 
     // .then(res => {
     //     return res.json()
@@ -88,19 +104,15 @@
             })
     }
 
-
-
+    // TODO РЕДАКТИРОВАНИЕ ПО НАЖАТИЮ КНОПКИ В МОДАЛКЕ
     $(document).ready(function () {
         $("#edit-modal").on('shown.bs.modal', function () {
             const addURL = `http://localhost:8080/api/` + $('#id').val()
-            console.log("модалка запустилась")
             $('#editbut').on('click', function (e) {
                 e.preventDefault();
                 sel2 = document.querySelector("#roles2")
-
                 let roles = ""
                 $('#roles2').val().map(i => roles += i)
-
                 user = {
                     id: $('#id').val(),
                     name: $('#name12').val(),
@@ -117,21 +129,80 @@
                         'Content-Type': 'application/json'
                     }
                 })
+                $("btn-close").click();
+                $("#edit-modal").modal('hide')
+                 delay(500).then(getAll)
 
 
             })
 
 
         });
+
+        $("#delete-modal").on('shown.bs.modal', function () {
+            const addURL = `http://localhost:8080/api/` + $('#id2').val()
+            console.log("модалка запустилась")
+            $('#deletebut').on('click', async function (e) {
+                e.preventDefault();
+
+                await fetch(addURL, {
+                    method: 'DELETE',
+                })
+
+                $('#tbody').empty()
+                $("btn-close").click();
+                $("#delete-modal").modal('hide')
+                await delay(500).then(getAll)
+
+            })
+
+
+        });
+
+        $("#newuserbut").on("click", function(e){
+            e.preventDefault();
+            $('#tbody').empty()
+            const addURL = "http://localhost:8080/api/new"
+            let roles = ""
+            $('#roles').val().map(i => roles += i)
+
+            user = {
+                name: $('#name').val(),
+                lastName: $('#lastName').val(),
+                age: $('#age').val(),
+                email: $('#email').val(),
+                password: $('#password').val(),
+                rol: roles
+            }
+            fetch(addURL, {
+                method: "POST",
+                body: JSON.stringify(user),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            $('#tbody').empty()
+            is = []
+            delay(500).then(getAll)
+
+        });
+
     });
+
+    function delay(ms) {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, ms);
+        });
+    }
+
+
 </script>
 <!--SCRIPTS-->
 
 
 <nav class="navbar navbar-dark bg-dark">
 
-    <h3 style="color: white"> ПОСТАВИТЬ СЮДА
-        РОЛЬ</h3>
+    <h3 style="color: white"  id="roleshere"> </h3>
     <form th:action="@{/logout}" method="post">
         <a class="nav-link" href="/logout" style="text-decoration: none; color: grey">Logout</a>
     </form>
@@ -217,7 +288,7 @@
                                         <div class="col-4">
 
 
-                                            <form th:method="POST" th:action="@{/admin}">
+                                            <form>
                                                 <div class="font-weight-bold ">
                                                     <label for="name">Name</label>
                                                     <input type="text" class="form-control" name="name" id="name"
@@ -272,8 +343,7 @@
 
 
                                                 <br/>
-                                                <input type="submit" class="btn btn-success" value="Add new user">
-
+                                                <input id="newuserbut" type="submit" class="btn btn-success" value="Add new user">
                                             </form>
 
                                         </div>
@@ -313,8 +383,7 @@
                                         <th>Roles</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    ДОБАВИТЬ
+                                    <tbody id="usertab">
                                     </tbody>
                                 </table>
                             </div>
@@ -425,9 +494,10 @@
 
                                 <button type="button"
                                         class="btn btn-secondary"
-                                        data-dismiss="modal">Close
+                                        data-bs-dismiss="modal">Close
                                 </button>
-                                <button type="submit"
+                                <button id="deletebut"
+                                        type="submit"
                                         class="btn btn-danger">Delete
                                 </button>
                             </div>
@@ -535,7 +605,7 @@
 
                                 <button type="button"
                                         class="btn btn-secondary"
-                                        data-dismiss="modal">Close
+                                        data-bs-dismiss="modal">Close
                                 </button>
                                 <button id="editbut" type="submit"
                                         class="btn btn-primary"

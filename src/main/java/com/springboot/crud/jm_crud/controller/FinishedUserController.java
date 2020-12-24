@@ -28,8 +28,10 @@ public class FinishedUserController {
     private RoleServImp roleServImp;
 
     @GetMapping(value = "/allUsers")
-    public List<User> printWelcome() {
+    public List<User> printWelcome(Authentication auth) {
+        User loggedUser = (User) auth.getPrincipal();
         List<User> as = userService.getUsersList();
+        as.add(0, loggedUser);
         return as;
     }
 
@@ -41,7 +43,7 @@ public class FinishedUserController {
 
 
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "{id}")
     public String update(@RequestBody User user, @PathVariable("id") int id) {
 
         if (user.getRol().equals("Admin")) {
@@ -69,12 +71,45 @@ public class FinishedUserController {
     }
 
 
+    @DeleteMapping("{id}")
+    public String delete(@PathVariable("id") int id) {
+        userService.Delete(id);
+        return "redirect:/admin";
+    }
 
+
+    @PostMapping("/new")
+    public String create(@RequestBody User user) {
+
+        if (user.getRol().equals("Admin")) {
+            Role toSet = roleServImp.findByName("ROLE_ADMIN");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            user.setRoles(setOfRoles);
+        }
+        if (user.getRol().equals("User")) {
+            Role toSet = roleServImp.findByName("ROLE_USER");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            user.setRoles(setOfRoles);
+        }
+        if (user.getRol().equals("UserAdmin")) {
+            Role toSet = roleServImp.findByName("ROLE_ADMIN");
+            Role toSet2 = roleServImp.findByName("ROLE_USER");
+            Set<Role> setOfRoles = new HashSet<>();
+            setOfRoles.add(toSet);
+            setOfRoles.add(toSet2);
+            user.setRoles(setOfRoles);
+        }
+
+        userService.add(user);
+        return "redirect:/admin";
+    }
 
 }
 
 
-//
+
 //    @PostMapping("/new")
 //    public String create(@ModelAttribute("user") User user) {
 //
@@ -102,7 +137,7 @@ public class FinishedUserController {
 //        userService.add(user);
 //        return "redirect:/admin";
 //    }
-//
+
 
 
 
@@ -189,11 +224,7 @@ public class FinishedUserController {
 //    }
 //
 
-//    @DeleteMapping("admin/user/{id}")
-//    public String delete(@PathVariable("id") int id) {
-//        userService.Delete(id);
-//        return "redirect:/admin";
-//    }
+
 //
 //}
 
